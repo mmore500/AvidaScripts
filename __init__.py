@@ -1,1 +1,1 @@
-from GenericScripts import *
+from .GenericScripts import *
