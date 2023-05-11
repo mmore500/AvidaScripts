@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 setup(
     name="AvidaScripts",
     version="0.1.1",
-    packages=["AvidaScripts"],
+    packages=find_packages(),
     package_dir={'': '.'},
     install_requires=requirements,
     author="Matthew Andres Moreno",
