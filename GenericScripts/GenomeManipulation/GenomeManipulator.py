@@ -38,8 +38,8 @@ class GenomeManipulator:
         """
         try:
             inst_file = open(inst_set_path)
-        except IOError, e:
-            print "Cannot open instruction set file"
+        except IOError as e:
+            print("Cannot open instruction set file")
             raise
             
         inst_contents = inst_file.read()
@@ -48,13 +48,13 @@ class GenomeManipulator:
             for i in inst_contents.split('\n') if len(i) > 1 and 
             i[0] != "#" and (not i.startswith("INSTSET"))]
 
-        for i in xrange(len(inst_data)):
+        for i in range(len(inst_data)):
         	if i < 26:
         		self.char_lookup.append(chr(ord('a') + i))
         	else:
         		self.char_lookup.append(chr(ord('A') + (i-26)))
 
-        for i in xrange(len(inst_data)):
+        for i in range(len(inst_data)):
         	self.inst_hash[self.char_lookup[i]] = inst_data[i]
         	self.rev_inst_hash[inst_data[i]] = self.char_lookup[i]
 

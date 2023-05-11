@@ -62,6 +62,6 @@ pyplot.ylabel(args.y_label[0])
 #save the figure if we are supposed to, otherwise try to display it
 if args.out_file:
     pyplot.savefig(args.out_file)
-    print "\nSaved figure to {0}".format(args.out_file)
+    print("\nSaved figure to {0}".format(args.out_file))
 else:
     pyplot.show()
