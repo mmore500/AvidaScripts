@@ -1,10 +1,14 @@
 from setuptools import setup, find_packages
 
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
 setup(
     name="AvidaScripts",
     version="0.0",
     packages=["AvidaScripts"],
     package_dir={'': '.'},
+    install_requires=requirements,
     author="Matthew Andres Moreno",
     author_email="morenoma@umich.edu",
     description="Repack of Luis Zaman's AvidaScripts as an installable package.",
