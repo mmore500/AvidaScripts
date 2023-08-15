@@ -130,7 +130,7 @@ class GenomeManipulator:
         return all_deletion_mutants
     
     def generate_all_point_mutants(self, sequence):
-        """Return a list of sequences with all possible deletion mutants
+        """Return a list of sequences with all possible point mutants
             
         Parameters
         ----------
