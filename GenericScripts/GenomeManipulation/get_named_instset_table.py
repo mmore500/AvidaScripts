@@ -42,6 +42,5 @@ def get_named_instset_table() -> typing.Dict[str, str]:
             INST IO
             INST Inject
             INST Divide-Erase
-            EOF
     """
     return yaml.safe_load(textwrap.dedent(raw_data))
