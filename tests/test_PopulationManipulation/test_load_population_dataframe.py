@@ -32,7 +32,9 @@ def test_load_population_dataframe():
         "Lineage Label": "0",  # row 20
         "is host": True,  # from additional postprocessing
         "is parasite": False,  # from additional postprocessing
+        "role": "host",  # from additional postprocessing
     }
 
     assert not res.iloc[-1]["is host"]
     assert res.iloc[-1]["is parasite"]
+    assert res.iloc[-1]["role"] == "parasite"

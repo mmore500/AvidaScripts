@@ -43,4 +43,6 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
     res["is parasite"] = res["Source"].str.contains("horz")
     assert (0 + res["is host"] + res["is parasite"]).unique() == [1]
 
+    res["role"] = np.where(res["is host"], "host", "parasite")
+
     return res
