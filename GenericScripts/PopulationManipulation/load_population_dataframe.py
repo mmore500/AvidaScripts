@@ -38,4 +38,9 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
         ],
     )
     assert len([*res]) == 20  # 20 columns
+
+    res["is host"] = res["Source"].str.contains("div")
+    res["is parasite"] = res["Source"].str.contains("horz")
+    assert (0 + res["is host"] + res["is parasite"]).unique() == [1]
+
     return res

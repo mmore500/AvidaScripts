@@ -30,4 +30,9 @@ def test_load_population_dataframe():
         "Occupied Cell IDs": "1245",  # row 18
         "Gestation (CPU) Cycle Offsets": "0",  # row 19
         "Lineage Label": "0",  # row 20
+        "is host": True,  # from additional postprocessing
+        "is parasite": False,  # from additional postprocessing
     }
+
+    assert not res.iloc[-1]["is host"]
+    assert res.iloc[-1]["is parasite"]
