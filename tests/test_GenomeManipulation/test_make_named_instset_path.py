@@ -8,4 +8,4 @@ def test_make_named_instset_path():
     with open(transsmt_path) as transsmt_file:
         transsmt_content = transsmt_file.read()
         assert "INSTSET transsmt:hw_type=2\n" in transsmt_content
-        assert "\nEOF" in transsmt_content
+        assert "\nINST Divide-Erase" in transsmt_content
