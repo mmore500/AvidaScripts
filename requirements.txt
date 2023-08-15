@@ -2,3 +2,4 @@ appdirs
 joblib
 matplotlib
 numpy
+pandas
