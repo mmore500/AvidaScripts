@@ -3,6 +3,11 @@ import pandas as pd
 
 
 def load_population_dataframe(population_path: str) -> pd.DataFrame:
+    """Deserialze a spop file as Pandas DataFrame.
+
+    Generates additional columns with convenience statistics.
+    """
+
     res = pd.read_csv(
         population_path,
         comment="#",
