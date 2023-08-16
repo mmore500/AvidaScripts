@@ -1,0 +1,34 @@
+#filetype genotype_data
+#format sequence viable task task task task task task task task task task task task task task task task task task task task task task task task task
+
+# Legend:
+# 1: Genome Sequence
+# 2: Is Viable (0/1)
+# 3: Nand
+# 4: Not
+# 5: OrNot
+# 6: Logic 3BO
+# 7: And
+# 8: Logic 3CI
+# 9: AndNot
+# 10: Logic 3BZ
+# 11: Logic 3AG (A+B+C <= 2)
+# 12: Or
+# 13: Logic 3CP
+# 14: Logic 3BY
+# 15: Nor
+# 16: Logic 3BS
+# 17: Logic 3BA
+# 18: Logic 3CJ
+# 19: Logic 3AH (A+B+C == 3)
+# 20: Logic 3AQ (A==B & ~C) [3]
+# 21: Logic 3CN
+# 22: Logic 3CB
+# 23: Logic 3AX
+# 24: Logic 3AR (A & B & ~C) [3]
+# 25: Logic 3AO (A & ~B & ~C) [3]
+# 26: Logic 3CH
+# 27: Logic 3CC
+
+ycdAoaddxccccccccccccccEEEcccccccccccccccccccccccccccccccccccccccccccccccccccgccccccccccccccccccccccccccccccccccccccccEccccDcccccccccccccccccccccccccccccccccccccccccccccccccccdccccccccccccccccccccccccccccccccccccccccccxcccccccccccccccccccccccccccccccccccccccccccccccccAcccccccccccccccccccucccccccccccccccccccccypqvcrGxab 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ycdAoaddxccccccccccccccEEEcccccccccccccccccccccccccccccccccccccccccccccccccccgccccccccccccccccccccccccccccccccccccccccEccccDcccccccccccccccccccccccccccccccccccccccccccccccccccdccccccccccccccccccccccccccccccccccccccccccxcccccccccccccccccccccccccccccccccccccccccccccccccAcccccccccccccccccccucccccccccccccccccccccypqvcrGxab 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
