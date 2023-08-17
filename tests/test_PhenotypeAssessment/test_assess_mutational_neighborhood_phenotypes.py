@@ -20,7 +20,6 @@ from AvidaScripts.GenericScripts.MutationalNeighborhood import (
 def test_get_onestep_pointmut_neighborhood(sequence: str):
 
     manipulator = GenomeManipulator(make_named_instset_path("transsmt"))
-    num_insts_in_set = get_named_instset_content("transsmt").count("\nINST ")
 
     if sequence is not None:
         neighborhood = get_onestep_pointmut_neighborhood(sequence, manipulator)
