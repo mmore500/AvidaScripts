@@ -60,7 +60,7 @@ def load_phenotype_dataframe(
         # because trailing space -> empty col
         res.dropna(axis=1, how="all", inplace=True)
 
-    assert "Genome Sequence" in res.columns, (res, res.columns)
+    assert "Genome Sequence" in res.columns
     for i, task in enumerate(iter_environment_tasks(environment_content)):
         res[f"Task {task}"] = res[f"Trait {i}"]
     res["Phenotype"] = [
