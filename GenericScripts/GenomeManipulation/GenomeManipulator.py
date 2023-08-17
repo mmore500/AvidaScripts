@@ -9,6 +9,7 @@ import copy
 import random
 import os
 import csv
+import typing
 from numpy import loadtxt, mean
 
 __author__ = """Luis Zaman (luis.zaman@gmail.com)"""
@@ -83,7 +84,30 @@ class GenomeManipulator:
         """
 
         return [self.inst_hash[s] for s in sequence]
-        
+
+    def hostify_parasite_sequence(self, sequence: str) -> typing.List[str]:
+        """Replace inject instructions with divide instructions to convert
+        viable parasite to viable host.
+
+        Makes parasite genomes compatible with Avida analysis mode,
+        """
+        inject_char = self.rev_inst_hash["Inject"]
+        divide_char = self.rev_inst_hash["Divide-Erase"]
+        return [inst.replace(inject_char, divide_char) for inst in sequence]
+
+    def hostify_parasite_genome(
+        self,
+        genome: typing.List[str],
+    ) -> typing.List[str]:
+        """Replace inject instructions with divide instructions to convert
+        viable parasite to viable host.
+
+        Makes parasite genomes compatible with Avida analysis mode,
+        """
+        assert "Inject" in self.rev_inst_hash
+        assert "Divide-Erase" in self.rev_inst_hash
+        return [inst.replace("Inject", "Divide-Erase") for inst in genome]
+
     def generate_all_insertion_mutants(self, sequence):
         """Return a list of sequences with all possible insertion mutants
             
