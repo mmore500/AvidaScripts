@@ -15,34 +15,52 @@ def load_phenotype_dataframe(
     """
 
     num_tasks = count_environment_tasks(environment_content)
-    assert (
-        num_tasks + 2
-        == len(
-            pd.read_csv(
-                phenotype_path,
-                comment="#",
-                index_col=False,
-                nrows=1,
-                sep=" ",
+    try:
+        assert (
+            num_tasks + 2
+            == len(
+                pd.read_csv(
+                    phenotype_path,
+                    comment="#",
+                    index_col=False,
+                    nrows=1,
+                    sep=" ",
+                )
+                .dropna(axis=1, how="all")  # b/c trailing space -> empty col
+                .columns,
             )
-            .dropna(axis=1, how="all")  # because trailing space -> empty col
-            .columns,
+            or len(
+                pd.read_csv(
+                    phenotype_path,
+                    comment="#",
+                    index_col=False,
+                    sep=" ",
+                )
+            )
+            == 0
         )
-    )
+    except pd.errors.EmptyDataError:
+        pass
 
+    names = [
+        *["Genome Sequence", "Viable"],
+        *[f"Trait {i}" for i in range(num_tasks)],
+    ]
     res = pd.read_csv(
         phenotype_path,
         comment="#",
         index_col=False,
+        names=names,
         sep=" ",
-        names=[
-            "Genome Sequence",  # column 1
-            "Viable",  # column 2
-        ]
-        + [f"Trait {i}" for i in range(num_tasks)],
-    ).dropna(  # because trailing space -> empty col
-        axis=1, how="all"
+    ).fillna(
+        {"Genome Sequence": ""},  # prevent empty genome seq from becoming nan
     )
+
+    if len(res):
+        # because trailing space -> empty col
+        res.dropna(axis=1, how="all", inplace=True)
+
+    assert "Genome Sequence" in res.columns, (res, res.columns)
     for i, task in enumerate(iter_environment_tasks(environment_content)):
         res[f"Task {task}"] = res[f"Trait {i}"]
     res["Phenotype"] = [

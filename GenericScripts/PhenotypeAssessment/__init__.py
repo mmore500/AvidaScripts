@@ -1,3 +1,6 @@
+from .assess_mutational_neighborhood_phenotypes import (
+    assess_mutational_neighborhood_phenotypes,
+)
 from .assess_phenotypes import assess_phenotypes
 from .count_environment_tasks import count_environment_tasks
 from .get_named_environment_content import get_named_environment_content
@@ -7,6 +10,7 @@ from .load_phenotype_dataframe import load_phenotype_dataframe
 
 
 __all__ = [
+    "assess_mutational_neighborhood_phenotypes",
     "assess_phenotypes",
     "count_environment_tasks",
     "get_named_environment_content",

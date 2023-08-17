@@ -18,6 +18,7 @@ def assess_phenotypes(
 ) -> pd.DataFrame:
 
     phenotypes_outpath = tempfile.mktemp()
+    Path(phenotypes_outpath).write_text("")
     num_tasks = count_environment_tasks(environment_content)
     newline_char = "\n"  # no \'s allowed in fstring
     analyze_script = f"""PURGE_BATCH
