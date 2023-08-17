@@ -12,7 +12,7 @@ setup(
     author="Matthew Andres Moreno",
     author_email="morenoma@umich.edu",
     description="Repack of Luis Zaman's AvidaScripts as an installable package.",
-    long_description=open('README').read(),
+    long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
     url="https://github.com/mmore500/AvidaScripts",
     classifiers=[
