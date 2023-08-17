@@ -18,7 +18,33 @@ def assess_mutational_neighborhood_phenotypes(
     environment_content: str,
     instset_content: str,
 ) -> pd.DataFrame:
+    """Calculate phenotypes of sequences in a given mutational neighborhood.
 
+    Delegates to `assess_phenotypes`.
+
+    Parameters
+    ----------
+    neighborhood_dict : typing.Dict[str, int]
+        Mapping of genome sequences to mutational distances from reference
+        genome.
+
+        See `get_onestep_pointmut_neighborhood` and
+        `get_twostep_pointmut_neighborhood`.
+
+    environment_content : str
+        Avida environment configuration, specifying available tasks.
+
+    instset_content : str
+        Avida instruction set configuration, specifying available instructions.
+
+    Returns
+    -------
+    pd.DataFrame
+        Summary of sequence's phenotypes and mutational distances from
+        reference genome.
+
+        One row per sequence in `neighborhood_dict`.
+    """
     phen_df = assess_phenotypes(
         neighborhood_dict.keys(),
         environment_content,

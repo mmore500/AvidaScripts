@@ -16,6 +16,26 @@ def assess_phenotypes(
     environment_content: str,
     instset_content: str,
 ) -> pd.DataFrame:
+    """Calculate the phenotypes (i.e., task profiles) of given sequences.
+
+    This function delegates to Avida executable analyze mode.
+
+    Parameters
+    ----------
+    sequences : typing.Iterable[str]
+        Single-character-encoded instruction sequences to analyze.
+
+    environment_content : str
+        Avida environment configuration, specifying available tasks.
+
+    instset_content : str
+        Avida instruction set configuration, specifying available instructions.
+
+    Returns
+    -------
+    pd.DataFrame
+        Phenotype summaries, with rows corresponding to individual sequences.
+    """
 
     phenotypes_outpath = tempfile.mktemp()
     Path(phenotypes_outpath).write_text("")
