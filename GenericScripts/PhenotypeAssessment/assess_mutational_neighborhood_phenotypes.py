@@ -17,6 +17,7 @@ def assess_mutational_neighborhood_phenotypes(
     neighborhood_dict: typing.Dict[str, int],
     environment_content: str,
     instset_content: str,
+    hostify_sequences: bool = False,
 ) -> pd.DataFrame:
     """Calculate phenotypes of sequences in a given mutational neighborhood.
 
@@ -37,6 +38,11 @@ def assess_mutational_neighborhood_phenotypes(
     instset_content : str
         Avida instruction set configuration, specifying available instructions.
 
+    hostify_sequences : bool
+        Should inject instructions be replaced with divide instructions?
+
+        Makes parasite genomes compatible with Avida analysis mode,
+
     Returns
     -------
     pd.DataFrame
@@ -49,6 +55,7 @@ def assess_mutational_neighborhood_phenotypes(
         neighborhood_dict.keys(),
         environment_content,
         instset_content,
+        hostify_sequences=hostify_sequences,
     )
 
     if len(phen_df):

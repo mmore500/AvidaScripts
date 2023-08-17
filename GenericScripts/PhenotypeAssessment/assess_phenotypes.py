@@ -7,6 +7,10 @@ import typing
 import pandas as pd
 
 from ..get_avida import get_avida_executable_path
+from ..GenomeManipulation import (
+    GenomeManipulator,
+    make_instset_path,
+)
 from .count_environment_tasks import count_environment_tasks
 from .load_phenotype_dataframe import load_phenotype_dataframe
 
@@ -15,6 +19,7 @@ def assess_phenotypes(
     sequences: typing.Iterable[str],
     environment_content: str,
     instset_content: str,
+    hostify_sequences: bool = False,
 ) -> pd.DataFrame:
     """Calculate the phenotypes (i.e., task profiles) of given sequences.
 
@@ -31,11 +36,22 @@ def assess_phenotypes(
     instset_content : str
         Avida instruction set configuration, specifying available instructions.
 
+    hostify_sequences : bool
+        Should inject instructions be replaced with divide instructions?
+
+        Makes parasite genomes compatible with Avida analysis mode,
+
     Returns
     -------
     pd.DataFrame
         Phenotype summaries, with rows corresponding to individual sequences.
     """
+
+    sequences = [*sequences]
+
+    gm = GenomeManipulator(make_instset_path(instset_content))
+    hostify = lambda x: "".join(gm.hostify_parasite_sequence(x))
+    gwrap = hostify if hostify_sequences else lambda x: x
 
     phenotypes_outpath = tempfile.mktemp()
     Path(phenotypes_outpath).write_text("")
@@ -43,7 +59,7 @@ def assess_phenotypes(
     newline_char = "\n"  # no \'s allowed in fstring
     analyze_script = f"""PURGE_BATCH
 
-{newline_char.join(f"LOAD_SEQUENCE {genome}" for genome in sequences)}
+{newline_char.join(f"LOAD_SEQUENCE {gwrap(genome)}" for genome in sequences)}
 
 RECALC
 
@@ -81,4 +97,8 @@ DETAIL {phenotypes_outpath} sequence viable {
         logging.info(completed_process.stdout)
         logging.info(completed_process.stderr)
 
-    return load_phenotype_dataframe(phenotypes_outpath, environment_content)
+    res = load_phenotype_dataframe(phenotypes_outpath, environment_content)
+    # undo hostificaiton, if necessary
+    if hostify_sequences:
+        res["Genome Sequence"] = sequences
+    return res
