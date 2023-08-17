@@ -11,7 +11,7 @@ def get_twostep_pointmut_neighborhood(
     sequence: str,
     manipulator: GenomeManipulator,
 ) -> typing.Dict[str, int]:
-    """Enumerate all point mutants within one step of the reference sequence.
+    """Enumerate all point mutants within two steps of the reference sequence.
 
     Parameters
     ----------
