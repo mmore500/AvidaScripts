@@ -37,7 +37,7 @@ pop_df = load_population_dataframe("myfile.spop")
 dominant_host_seq = extract_dominant_taxon(pop_df, "host")["Genome Sequence"]
 
 manipulator = GenomeManipulator(make_named_instset_path("transsmt"))
-neighborhood = get_twostep_pointmut_neighborhood(sequence, manipulator)
+neighborhood = get_twostep_pointmut_neighborhood(dominant_host_seq, manipulator)
 phenotypes_df = assess_mutational_neighborhood_phenotypes(
     neighborhood,
     get_named_environment_content("top25"),
