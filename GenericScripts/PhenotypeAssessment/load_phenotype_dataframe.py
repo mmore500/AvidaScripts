@@ -15,6 +15,7 @@ def load_phenotype_dataframe(
     """
 
     num_tasks = count_environment_tasks(environment_content)
+    # check that num_tasks matches num cols in file
     try:
         assert (
             num_tasks + 2
@@ -42,6 +43,7 @@ def load_phenotype_dataframe(
     except pd.errors.EmptyDataError:
         pass
 
+    # load data from file
     names = [
         *["Genome Sequence", "Viable"],
         *[f"Trait {i}" for i in range(num_tasks)],
@@ -61,6 +63,8 @@ def load_phenotype_dataframe(
         res.dropna(axis=1, how="all", inplace=True)
 
     assert "Genome Sequence" in res.columns
+
+    # postprocess to add calculated columns
     for i, task in enumerate(iter_environment_tasks(environment_content)):
         res[f"Task {task}"] = res[f"Trait {i}"]
     res["Phenotype"] = [
