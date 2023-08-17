@@ -35,12 +35,31 @@ from AvidaScripts.GenericScripts.MutationalNeighborhood import (
 
 pop_df = load_population_dataframe("myfile.spop")
 dominant_host_seq = extract_dominant_taxon(pop_df, "host")["Genome Sequence"]
+dominant_parasite_seq = extract_dominant_taxon(
+    pop_df,
+    "parasite",
+)["Genome Sequence"]
 
 manipulator = GenomeManipulator(make_named_instset_path("transsmt"))
-neighborhood = get_twostep_pointmut_neighborhood(dominant_host_seq, manipulator)
-phenotypes_df = assess_mutational_neighborhood_phenotypes(
-    neighborhood,
+
+host_neighborhood = get_twostep_pointmut_neighborhood(
+    dominant_host_seq,
+    manipulator,
+)
+host_phenotypes_df = assess_mutational_neighborhood_phenotypes(
+    host_neighborhood,
     get_named_environment_content("top25"),
     get_named_instset_content("transsmt"),
+)
+
+parasite_neighborhood = get_twostep_pointmut_neighborhood(
+    dominant_parasite_seq,
+    manipulator,
+)
+parasite_phenotypes_df = assess_mutational_neighborhood_phenotypes(
+    parasite_neighborhood,
+    get_named_environment_content("top25"),
+    get_named_instset_content("transsmt"),
+    hostify_sequences=True,
 )
 ```
