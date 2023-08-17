@@ -1,11 +1,8 @@
-import tempfile
-
 from .get_named_instset_content import get_named_instset_content
+from .make_instset_path import make_instset_path
 
 
 def make_named_instset_path(instset_name: str) -> str:
     """Write instset content to a tempfile and return the path."""
-    with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp:
-        content = get_named_instset_content(instset_name)
-        temp.write(content)
-        return temp.name
+    instset_content = get_named_instset_content(instset_name)
+    return make_instset_path(instset_content)
