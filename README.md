@@ -5,6 +5,7 @@ utilities for analyses and visualizations of Avida data
 - enumerate genomes' mutational neighborhood
 - calculate genome phenotypes (viability, task profiles)
 - extract most abundant taxon in spop population files
+- builtin (extendable) named instruction library and environment configurations
 
 ## Installation
 
