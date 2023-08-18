@@ -7,6 +7,9 @@ from .get_named_environment_content import get_named_environment_content
 from .get_named_environment_table import get_named_environment_table
 from .iter_environment_tasks import iter_environment_tasks
 from .load_phenotype_dataframe import load_phenotype_dataframe
+from .summarize_mutational_neighborhood_phenotypes import (
+    summarize_mutational_neighborhood_phenotypes,
+)
 
 
 __all__ = [
@@ -17,4 +20,5 @@ __all__ = [
     "get_named_environment_table",
     "iter_environment_tasks",
     "load_phenotype_dataframe",
+    "summarize_phenotype_dataframe",
 ]
