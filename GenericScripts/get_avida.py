@@ -59,7 +59,7 @@ def get_avida_executable_path(revision: str = default_avida_revision) -> str:
     # Write binary data to output file
     fd, tmpfile = tempfile.mkstemp()
     os.close(fd)
-    with open(tmpfile, 'wb') as file:
+    with open(tmpfile, "wb") as file:
         file.write(avida_executable_data)
 
     # Mark executable
