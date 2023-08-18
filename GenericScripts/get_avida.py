@@ -1,3 +1,5 @@
+import atexit
+import functools
 import logging
 import os
 import tempfile
@@ -44,6 +46,7 @@ def get_avida_executable_data(revision: str = default_avida_revision) -> bytes:
     return binary_data
 
 
+@functools.lru_cache(maxsize=None)
 def get_avida_executable_path(revision: str = default_avida_revision) -> str:
     """Get path to the binary Avida executable corresponding to the provided
     the SHA revision.
@@ -61,5 +64,8 @@ def get_avida_executable_path(revision: str = default_avida_revision) -> str:
 
     # Mark executable
     os.chmod(tmpfile, 0o755)
+
+    # Register for cleanup
+    atexit.register(lambda: os.remove(tmpfile))
 
     return tmpfile
