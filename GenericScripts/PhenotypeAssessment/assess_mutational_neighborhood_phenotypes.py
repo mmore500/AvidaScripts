@@ -74,6 +74,28 @@ def assess_mutational_neighborhood_phenotypes(
                 2: calc_num_twostep_pointmuts(num_sites, num_insts),
             },
         )
+        if 0 in phen_df["Mutational Distance"]:
+            fil = phen_df["Mutational Distance"] == 0
+            assert fil.sum() == 1
+            reference_row = phen_df[fil].iloc[0]
+
+            phen_df["Num Traits Gained"] = [
+                sum(
+                    value and (not reference_row[col])
+                    for col, value in row.items()
+                    if col.startswith("Trait ")  # noqa fmt
+                )
+                for __, row in phen_df.iterrows()
+            ]
+            phen_df["Num Traits Lost"] = [
+                sum(
+                    (not value) and reference_row[col]
+                    for col, value in row.items()
+                    if col.startswith("Trait ")  # noqa fmt
+                )
+                for __, row in phen_df.iterrows()
+            ]
+
 
     assert len(phen_df) == len(neighborhood_dict)
 
