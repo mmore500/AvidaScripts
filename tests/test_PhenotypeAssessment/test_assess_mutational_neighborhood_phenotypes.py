@@ -18,7 +18,7 @@ from AvidaScripts.GenericScripts.MutationalNeighborhood import (
 
 
 @pytest.mark.parametrize("sequence", ["", "a", "b", "aa", "abab", None])
-def test_get_onestep_pointmut_neighborhood(sequence: str):
+def test_onestep_pointmut_neighborhood(sequence: str):
 
     manipulator = GenomeManipulator(make_named_instset_path("transsmt"))
 
@@ -44,7 +44,7 @@ def test_get_onestep_pointmut_neighborhood(sequence: str):
 
 
 @pytest.mark.parametrize("sequence", ["", "a", "b", "aa", "abab", None])
-def test_get_twostep_pointmut_neighborhood(sequence: str):
+def test_twostep_pointmut_neighborhood(sequence: str):
 
     manipulator = GenomeManipulator(make_named_instset_path("transsmt"))
 
