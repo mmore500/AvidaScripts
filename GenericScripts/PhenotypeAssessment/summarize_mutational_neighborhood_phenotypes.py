@@ -21,4 +21,17 @@ def summarize_mutational_neighborhood_phenotypes(
     grouped = groupby.mean()
     grouped["Num Sampled at Mutational Distance"] = groupby.size()
 
-    return grouped.reset_index()
+    res = grouped.reset_index()
+
+    assert (
+        res["Viable"].astype(int).between(0, 1).all(),
+        res[res["Viable"].astype(int).between(0, 1)]["Viable"].tolist(),
+    )
+
+    for col in [col for col in res.columns if col.startswith("Trait ")]:
+        assert (
+            res[col].astype(int).between(0, 1).all(),
+            (col, res[res[col].astype(int).between(0, 1)][col].tolist()),
+        )
+
+    return res

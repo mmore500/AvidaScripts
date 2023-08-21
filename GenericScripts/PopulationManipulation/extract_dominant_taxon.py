@@ -23,7 +23,7 @@ def extract_dominant_taxon(
         Dictionary of data for the dominant taxon of the specified role.
     """
 
-    domidx = population_df[
-        population_df["role"] == role
-    ]["Number of currently living organisms"].idxmax()
+    domidx = population_df[population_df["role"] == role][
+        "Number of currently living organisms"
+    ].idxmax()
     return population_df.loc[domidx].to_dict()

@@ -43,6 +43,9 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
         ],
     )
     assert len([*res]) == 20  # 20 columns
+    assert (res["Number of currently living organisms"] >= 0).all()
+    assert (res["Total number of organisms that ever existed"] > 0).all()
+    assert (res["Genome Length"] > 0).all()
 
     res["is host"] = res["Source"].str.contains("div")
     res["is parasite"] = res["Source"].str.contains("horz")

@@ -58,6 +58,19 @@ def load_phenotype_dataframe(
         {"Genome Sequence": ""},  # prevent empty genome seq from becoming nan
     )
 
+    assert res["Viable"].astype(int).isin([0, 1]).all(), res[
+        res["Viable"].astype(int).isin([0, 1])
+    ][
+        "Viable"
+    ].tolist()  # noqa fmt
+
+    for i in range(num_tasks):
+        col = f"Trait {i}"
+        assert res[col].astype(int).isin([0, 1]).all(), (
+            col,
+            res[res[col].astype(int).isin([0, 1])][col].tolist(),
+        )  # noqa fmt
+
     if len(res):
         # because trailing space -> empty col
         res.dropna(axis=1, how="all", inplace=True)
