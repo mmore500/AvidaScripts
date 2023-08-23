@@ -12,6 +12,8 @@ import csv
 import typing
 from numpy import loadtxt, mean
 
+from ..auxlib import get_avida_char_seq_val
+
 __author__ = """Luis Zaman (luis.zaman@gmail.com)"""
 
 class GenomeManipulator:
@@ -50,14 +52,31 @@ class GenomeManipulator:
             i[0] != "#" and (not i.startswith("INSTSET"))]
 
         for i in range(len(inst_data)):
-        	if i < 26:
-        		self.char_lookup.append(chr(ord('a') + i))
-        	else:
-        		self.char_lookup.append(chr(ord('A') + (i-26)))
+            self.char_lookup.append(get_avida_char_seq_val(i))
 
         for i in range(len(inst_data)):
         	self.inst_hash[self.char_lookup[i]] = inst_data[i]
         	self.rev_inst_hash[inst_data[i]] = self.char_lookup[i]
+
+        assert len(self.inst_hash) == len(self.rev_inst_hash)
+
+    def extend_instset_for_hostification(self) -> None:
+        assert len(self.inst_hash) == len(self.rev_inst_hash)
+        for addend in "Divide", "Nop-X":
+            if addend not in self.rev_inst_hash:
+                char_num = len(self.rev_inst_hash)
+                assert char_num
+                addend_char = get_avida_char_seq_val(char_num)
+                self.rev_inst_hash[addend] = addend_char
+                self.char_lookup.append(addend_char)
+                assert addend_char not in self.inst_hash
+                self.inst_hash[addend_char] = addend
+
+        assert len(self.inst_hash) == len(self.rev_inst_hash)
+
+    def needs_instset_extension_for_hostification(self) -> bool:
+        lookup = self.rev_inst_hash
+        return not ("Divide" in lookup and "Nop-X" in lookup)
 
     def genome_to_sequence(self, genome):
         """Convert a list of instructions into a sequence of chars
@@ -91,9 +110,27 @@ class GenomeManipulator:
 
         Makes parasite genomes compatible with Avida analysis mode,
         """
-        inject_char = self.rev_inst_hash["Inject"]
-        divide_char = self.rev_inst_hash["Divide-Erase"]
-        return [inst.replace(inject_char, divide_char) for inst in sequence]
+        assert not self.needs_instset_extension_for_hostification()
+
+        inst_lookup = self.rev_inst_hash
+        inject_char = inst_lookup["Inject"]
+        divide_char = inst_lookup["Divide"]
+        divide_erase_char = inst_lookup.get(
+            "Divide-Erase",
+            "-".join(sequence),  # fallback guaranteed never in sequence
+        )
+        nop_x_char = inst_lookup["Nop-X"]
+
+        return [
+            inst.replace(
+                divide_erase_char, nop_x_char  # noqa fmt
+            ).replace(
+                divide_char, nop_x_char  # noqa fmt
+            ).replace(
+                inject_char, divide_char  # noqa fmt
+            )
+            for inst in sequence
+        ]
 
     def hostify_parasite_genome(
         self,
@@ -104,9 +141,18 @@ class GenomeManipulator:
 
         Makes parasite genomes compatible with Avida analysis mode,
         """
-        assert "Inject" in self.rev_inst_hash
-        assert "Divide-Erase" in self.rev_inst_hash
-        return [inst.replace("Inject", "Divide-Erase") for inst in genome]
+        assert not self.needs_instset_extension_for_hostification()
+
+        return [
+            inst.replace(
+                "Divide-Erase", "Nop-X"  # noqa fmt
+            ).replace(
+                "Divide", "Nop-X"  # noqa fmt
+            ).replace(
+                "Inject", "Divide"  # noqa fmt
+            )
+            for inst in genome
+         ]
 
     def generate_all_insertion_mutants(self, sequence):
         """Return a list of sequences with all possible insertion mutants

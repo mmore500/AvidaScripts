@@ -28,6 +28,7 @@ def test_GenomeManipulator():
 
 def test_hostify_parasite_genome():
     manipulator = GenomeManipulator(make_named_instset_path("transsmt"))
+    manipulator.extend_instset_for_hostification()
 
     input_path = f"{os.path.dirname(__file__)}/assets/parasite-genome.json"
     input = json.loads(Path(input_path).read_text())
@@ -42,6 +43,7 @@ def test_hostify_parasite_genome():
 
 def test_hostify_parasite_sequence():
     manipulator = GenomeManipulator(make_named_instset_path("transsmt"))
+    manipulator.extend_instset_for_hostification()
 
     input_path = f"{os.path.dirname(__file__)}/assets/parasite-genome.json"
     input_genome = json.loads(Path(input_path).read_text())
@@ -55,6 +57,7 @@ def test_hostify_parasite_sequence():
         expected_output_genome,
     )
 
+    assert len(expected_output_sequence) == len(input_sequence)
     assert (
         manipulator.hostify_parasite_sequence(input_sequence)
         == expected_output_sequence
