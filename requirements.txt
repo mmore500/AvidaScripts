@@ -2,5 +2,6 @@ appdirs
 joblib
 matplotlib
 numpy
+opytional
 pandas
 pyyaml
