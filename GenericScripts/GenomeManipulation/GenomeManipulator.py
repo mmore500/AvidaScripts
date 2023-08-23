@@ -24,9 +24,6 @@ class GenomeManipulator:
     and sequences to genomes.
     
     """
-    inst_hash = {} #hash from instruction string to sequence char
-    rev_inst_hash = {} #hash from sequence char to instruction string
-    char_lookup = [] #list of characters used as shorthand
     
     def __init__(self, inst_set_path):
         """Initialize a GenomeManipulator object with a particular inst_set.
@@ -39,6 +36,10 @@ class GenomeManipulator:
             Avida organisms in their genome.
         
         """
+        self.inst_hash = {} #hash from instruction string to sequence char
+        self.rev_inst_hash = {} #hash from sequence char to instruction string
+        self.char_lookup = [] #list of characters used as shorthand
+
         try:
             inst_file = open(inst_set_path)
         except IOError as e:
@@ -52,13 +53,23 @@ class GenomeManipulator:
             i[0] != "#" and (not i.startswith("INSTSET"))]
 
         for i in range(len(inst_data)):
-            self.char_lookup.append(get_avida_char_seq_val(i))
+            inst_char = get_avida_char_seq_val(i)
+            self.char_lookup.append(inst_char)
+
+        assert len(self.char_lookup) == len(inst_data), (
+            len(self.char_lookup), len(inst_data)
+        )
 
         for i in range(len(inst_data)):
         	self.inst_hash[self.char_lookup[i]] = inst_data[i]
         	self.rev_inst_hash[inst_data[i]] = self.char_lookup[i]
 
-        assert len(self.inst_hash) == len(self.rev_inst_hash)
+        assert (
+            len(inst_data)
+            == len(self.inst_hash)
+            == len(self.rev_inst_hash)
+            == len(self.char_lookup)
+        )
 
     def extend_instset_for_hostification(self) -> None:
         assert len(self.inst_hash) == len(self.rev_inst_hash)
