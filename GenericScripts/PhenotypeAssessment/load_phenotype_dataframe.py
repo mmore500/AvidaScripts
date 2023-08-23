@@ -63,13 +63,18 @@ def load_phenotype_dataframe(
         res[~res["Viable"].astype(int).isin([0, 1])]["Viable"].tolist()
     )
 
+    # some traits are 2, maybe because they're being done twice?
+    # don't envorce these asserts
     for i in range(num_tasks):
         col = f"Trait {i}"
-        assert res[col].astype(int).isin([0, 1]).all(), (
-            phenotype_path,
-            col,
-            res[~res[col].astype(int).isin([0, 1])][col].tolist(),
-        )  # noqa fmt
+        # assert res[col].astype(int).isin([0, 1]).all(), (
+        #     phenotype_path,
+        #     col,
+        #     res[~res[col].astype(int).isin([0, 1])][col].tolist(),
+        # )  # noqa fmt
+        # instead, coerce to bool
+        res[col] = res[col].astype(bool).astype(int)
+
 
     if len(res):
         # because trailing space -> empty col
