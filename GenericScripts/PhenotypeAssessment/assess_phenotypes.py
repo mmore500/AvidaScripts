@@ -9,6 +9,7 @@ import pandas as pd
 from ..get_avida import get_avida_executable_path
 from ..GenomeManipulation import (
     GenomeManipulator,
+    extend_instset_for_hostification,
     make_instset_path,
 )
 from .count_environment_tasks import count_environment_tasks
@@ -50,8 +51,13 @@ def assess_phenotypes(
     sequences = [*sequences]
 
     gm = GenomeManipulator(make_instset_path(instset_content))
-    hostify = lambda x: "".join(gm.hostify_parasite_sequence(x))
-    gwrap = hostify if hostify_sequences else lambda x: x
+    if hostify_sequences:
+        gm.extend_instset_for_hostification()
+        # could also just do this above and not have to extend gm
+        instset_content = extend_instset_for_hostification(instset_content)
+        gwrap = lambda x: "".join(gm.hostify_parasite_sequence(x))
+    else:
+        gwrap = lambda x: x
 
     phenotypes_outpath = tempfile.mktemp()
     Path(phenotypes_outpath).write_text("")
