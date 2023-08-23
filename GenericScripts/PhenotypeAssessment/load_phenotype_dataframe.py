@@ -59,7 +59,7 @@ def load_phenotype_dataframe(
     )
 
     assert res["Viable"].astype(int).isin([0, 1]).all(), res[
-        res["Viable"].astype(int).isin([0, 1])
+        ~res["Viable"].astype(int).isin([0, 1])
     ][
         "Viable"
     ].tolist()  # noqa fmt
@@ -68,7 +68,7 @@ def load_phenotype_dataframe(
         col = f"Trait {i}"
         assert res[col].astype(int).isin([0, 1]).all(), (
             col,
-            res[res[col].astype(int).isin([0, 1])][col].tolist(),
+            res[~res[col].astype(int).isin([0, 1])][col].tolist(),
         )  # noqa fmt
 
     if len(res):
