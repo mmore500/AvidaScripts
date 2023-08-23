@@ -51,7 +51,7 @@ def get_twostep_pointmut_neighborhood(
         ).items():
             if step_ == 0:
                 continue
-            assert step == 1
+            assert step_ == 1
 
             # don't update zero-step, one-step entries
             res.setdefault(two_step_genome, 2)
