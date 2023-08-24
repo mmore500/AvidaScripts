@@ -8,6 +8,7 @@ def _calc_bit_count(i: int) -> int:
 
     return count
 
+
 def bit_count(i: int) -> int:
     """Calculate number of set bits in an integer using the built-in method,
     falling back to a manual implementation if necessary."""
