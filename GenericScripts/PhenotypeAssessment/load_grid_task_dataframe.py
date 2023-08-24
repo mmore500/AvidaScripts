@@ -3,6 +3,8 @@ import typing
 import pandas as pd
 import opytional as opyt
 
+from ..auxlib import bit_count, bit_length
+
 
 def load_grid_task_dataframe(
     path: str,
@@ -15,7 +17,7 @@ def load_grid_task_dataframe(
         header=None,
     ).dropna(axis=1)
     max_val = max(int(grid_df.max().max()), 0)
-    max_bitlength = max_val.bit_length()
+    max_bitlength = bit_length(max_val)
     num_tasks = opyt.or_value(
         num_tasks,
         max_bitlength - max_bitlength % -16,
@@ -30,7 +32,7 @@ def load_grid_task_dataframe(
                 "Alive": int(entry >= 0),
                 "Empty": int(entry == -1),
                 "Traits Bitfield": int((entry > 0) * entry),
-                "Num Traits": (entry > 0) * int(entry).bit_count(),
+                "Num Traits": (entry > 0) * bit_count(int(entry)),
                 "Row": index,
                 "Col": col,
                 "Site": len(records),
