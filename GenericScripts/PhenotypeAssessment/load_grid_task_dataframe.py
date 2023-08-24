@@ -27,15 +27,16 @@ def load_grid_task_dataframe(
         for col in grid_df.columns:
             entry = row[col]
             site_data = {
-                "alive": int(entry >= 0),
-                "empty": int(entry == -1),
-                "task bitfield": int((entry > 0) * entry),
-                "num tasks": (entry > 0) * int(entry).bit_count(),
-                "row": index,
-                "col": col,
+                "Alive": int(entry >= 0),
+                "Empty": int(entry == -1),
+                "Raw Tasks Bitfield": int((entry > 0) * entry),
+                "Num Tasks": (entry > 0) * int(entry).bit_count(),
+                "Row": index,
+                "Col": col,
+                "Site": len(records),
             }
             task_data = {
-                f"task {task}": int((entry > 0) and bool(entry & (1 << task)))
+                f"Trait {task}": int((entry > 0) and bool(entry & (1 << task)))
                 for task in range(num_tasks)
             }
             records.append(
