@@ -22,6 +22,6 @@ def get_avida_char_seq_val(i: int) -> str:
     if i < 26:
         return string.ascii_lowercase[i]
     elif i < 26 + 26:
-        return string.ascii_uppercase[i-26]
+        return string.ascii_uppercase[i - 26]
     else:
         raise ValueError
