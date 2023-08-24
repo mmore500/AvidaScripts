@@ -1,4 +1,5 @@
 appdirs
+hstrat
 joblib
 keyname
 matplotlib
