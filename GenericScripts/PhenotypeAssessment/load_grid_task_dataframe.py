@@ -29,8 +29,8 @@ def load_grid_task_dataframe(
             site_data = {
                 "Alive": int(entry >= 0),
                 "Empty": int(entry == -1),
-                "Raw Tasks Bitfield": int((entry > 0) * entry),
-                "Num Tasks": (entry > 0) * int(entry).bit_count(),
+                "Traits Bitfield": int((entry > 0) * entry),
+                "Num Traits": (entry > 0) * int(entry).bit_count(),
                 "Row": index,
                 "Col": col,
                 "Site": len(records),
