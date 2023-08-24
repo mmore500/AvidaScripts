@@ -1,6 +1,7 @@
 def _calc_bit_count(i: int) -> int:
     """Count up the number of set bits with a loop."""
     count = 0
+    i = abs(i)
     while i:
         count += i & 1
         i >>= 1
