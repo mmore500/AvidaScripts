@@ -1,3 +1,5 @@
+from .bit_count import bit_count
+from .bit_length import bit_length
 from .get_avida_char_seq_val import (
     get_avida_char_seq_val,
 )
