@@ -112,6 +112,12 @@ def assess_mutational_neighborhood_phenotypes(
             phen_df["Net Traits Gained"] = (
                 phen_df["Num Traits Gained"] - phen_df["Num Traits Lost"]
             )
+    else:
+        phen_df["Mutational Distance"] = []
+        phen_df["Num Point Mutations at Distance"] = []
+        phen_df["Num Traits Gained"] = []
+        phen_df["Num Traits Lost"] = []
+        phen_df["Net Traits Gained"] = []
 
     assert len(phen_df) == len(neighborhood_dict)
 
