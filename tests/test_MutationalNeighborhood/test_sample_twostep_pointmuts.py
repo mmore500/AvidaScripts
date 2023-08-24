@@ -1,6 +1,3 @@
-import math
-import os
-
 import pytest
 
 from AvidaScripts.GenericScripts.GenomeManipulation import (

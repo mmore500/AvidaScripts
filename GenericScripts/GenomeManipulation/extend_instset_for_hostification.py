@@ -1,7 +1,5 @@
 import re
 
-from ..auxlib import strip_comments_and_trailing_whitespace
-
 
 def extend_instset_for_hostification(instset_content: str) -> str:
     """Extend instset with Divide and Nop-X instructions, if necessary."""

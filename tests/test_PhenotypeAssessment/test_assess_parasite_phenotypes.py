@@ -1,10 +1,5 @@
-import os
-from pathlib import Path
-
 from AvidaScripts.GenericScripts.GenomeManipulation import (
-    GenomeManipulator,
     get_named_instset_content,
-    make_named_instset_path,
 )
 from AvidaScripts.GenericScripts.PhenotypeAssessment import (
     assess_parasite_phenotypes,

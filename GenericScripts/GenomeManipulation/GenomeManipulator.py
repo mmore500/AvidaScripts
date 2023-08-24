@@ -2,15 +2,7 @@
 A class used to manipulate Avida genomes. 
 
 """
-
-import gzip
-import sys
-import copy
-import random
-import os
-import csv
 import typing
-from numpy import loadtxt, mean
 
 from ..auxlib import get_avida_char_seq_val
 
