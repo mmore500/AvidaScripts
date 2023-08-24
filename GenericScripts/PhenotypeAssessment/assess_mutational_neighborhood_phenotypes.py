@@ -109,6 +109,9 @@ def assess_mutational_neighborhood_phenotypes(
                 )
                 for __, row in phen_df.iterrows()
             ]
+            phen_df["Net Traits Gained"] = (
+                phen_df["Num Traits Gained"] - phen_df["Num Traits Lost"]
+            )
 
     assert len(phen_df) == len(neighborhood_dict)
 
