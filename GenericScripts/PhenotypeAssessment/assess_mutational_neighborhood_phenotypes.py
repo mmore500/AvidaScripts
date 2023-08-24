@@ -2,6 +2,7 @@ import typing
 
 import pandas as pd
 
+from .assess_parasite_phenotypes import assess_parasite_phenotypes
 from .assess_phenotypes import assess_phenotypes
 
 from ..GenomeManipulation import count_instset_insts
@@ -17,7 +18,7 @@ def assess_mutational_neighborhood_phenotypes(
     neighborhood_dict: typing.Dict[str, int],
     environment_content: str,
     instset_content: str,
-    hostify_sequences: bool = False,
+    assess_parasites: typing.Optional[str] = None,
 ) -> pd.DataFrame:
     """Calculate phenotypes of sequences in a given mutational neighborhood.
 
@@ -38,10 +39,13 @@ def assess_mutational_neighborhood_phenotypes(
     instset_content : str
         Avida instruction set configuration, specifying available instructions.
 
-    hostify_sequences : bool
-        Should inject instructions be replaced with divide instructions?
+    assess_parasites : "hostify" or "simulate", optional
+        Should the sequences be assessed as parasites?
 
+        If "hostify," replace inject instructions with divide instructions.
         Makes parasite genomes compatible with Avida analysis mode,
+
+        If "simulate," run Avida simulation instead of Avida analyze mode.
 
     Returns
     -------
@@ -51,11 +55,20 @@ def assess_mutational_neighborhood_phenotypes(
 
         One row per sequence in `neighborhood_dict`.
     """
-    phen_df = assess_phenotypes(
-        neighborhood_dict.keys(),
-        environment_content,
-        instset_content,
-        hostify_sequences=hostify_sequences,
+
+    phen_df = (
+        assess_parasite_phenotypes(
+            neighborhood_dict.keys(),
+            environment_content,
+            instset_content,
+        )
+        if assess_parasites == "simulate"
+        else assess_phenotypes(
+            neighborhood_dict.keys(),
+            environment_content,
+            instset_content,
+            hostify_sequences=(assess_parasites == "hostify"),
+        )
     )
 
     if len(phen_df):
