@@ -1,5 +1,6 @@
 appdirs
 joblib
+keyname
 matplotlib
 numpy
 opytional
