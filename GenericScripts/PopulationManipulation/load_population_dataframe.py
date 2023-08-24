@@ -45,15 +45,15 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
     assert len([*res]) == 20  # 20 columns
     assert (res["Number of currently living organisms"] >= 0).all(), (
         population_path,
-        res[
-            ~(res["Number of currently living organisms"] >= 0)
-        ]["Number of currently living organisms"],
+        res[~(res["Number of currently living organisms"] >= 0)][
+            "Number of currently living organisms"
+        ],
     )
     assert (res["Total number of organisms that ever existed"] >= 0).all(), (
         population_path,
-        res[
-            ~(res["Total number of organisms that ever existed"] >= 0)
-        ]["Total number of organisms that ever existed"],
+        res[~(res["Total number of organisms that ever existed"] >= 0)][
+            "Total number of organisms that ever existed"
+        ],
     )
     assert (res["Genome Length"] > 0).all(), (
         population_path,
