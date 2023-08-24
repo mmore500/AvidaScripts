@@ -18,7 +18,7 @@ def _write_events_file(sequences: typing.List[str], run_dir: str) -> None:
     with open(f"{run_dir}/events.cfg", "w") as fp:
         fp.write("u begin InjectSequence aaa 0\n")
         fp.write("u begin InjectSequence aaa 1\n")
-        num_updates_per_trial = 500
+        num_updates_per_trial = 30
         for i, sequence in enumerate(sequences):
             begin_update = i * num_updates_per_trial
             end_update = (i + 1) * num_updates_per_trial
