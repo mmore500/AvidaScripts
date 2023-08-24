@@ -23,13 +23,16 @@ def summarize_mutational_neighborhood_phenotypes(
 
     res = grouped.reset_index()
 
-    assert res["Viable"].astype(int).between(0, 1).all(), (
-        res[res["Viable"].astype(int).between(0, 1)]["Viable"].tolist()
-    )  # noqa fmt
+    assert res["Viable"].astype(int).between(0, 1).all(), res[
+        res["Viable"].astype(int).between(0, 1)
+    ][
+        "Viable"
+    ].tolist()  # noqa fmt
 
     for col in [col for col in res.columns if col.startswith("Trait ")]:
         assert res[col].astype(int).between(0, 1).all(), (
-            (col, res[res[col].astype(int).between(0, 1)][col].tolist())
+            col,
+            res[res[col].astype(int).between(0, 1)][col].tolist(),
         )  # noqa fmt
 
     return res

@@ -96,7 +96,6 @@ def assess_mutational_neighborhood_phenotypes(
                 for __, row in phen_df.iterrows()
             ]
 
-
     assert len(phen_df) == len(neighborhood_dict)
 
     return phen_df
