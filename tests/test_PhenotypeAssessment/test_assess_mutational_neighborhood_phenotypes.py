@@ -39,6 +39,8 @@ def test_onestep_pointmut_neighborhood(sequence: str):
         assert sum(a != b for a, b in zip(sequence, neighbor)) == step
 
     assert len(phenotypes_df) == len(neighborhood)
+    assert "Num Traits Gained" in phenotypes_df
+    assert "Num Traits Lost" in phenotypes_df
 
 
 @pytest.mark.parametrize("sequence", ["", "a", "b", "aa", "abab", None])
@@ -65,6 +67,8 @@ def test_twostep_pointmut_neighborhood(sequence: str):
         assert sum(a != b for a, b in zip(sequence, neighbor)) == step
 
     assert len(phenotypes_df) == len(neighborhood)
+    assert "Num Traits Gained" in phenotypes_df
+    assert "Num Traits Lost" in phenotypes_df
 
 
 @pytest.mark.parametrize("assess_parasites", ["hostify", "simulate"])
@@ -89,3 +93,5 @@ def test_twostep_pointmut_neighborhood_parasite(assess_parasites: str):
         assert sum(a != b for a, b in zip(sequence, neighbor)) == step
 
     assert len(phenotypes_df) == len(neighborhood)
+    assert "Num Traits Gained" in phenotypes_df
+    assert "Num Traits Lost" in phenotypes_df

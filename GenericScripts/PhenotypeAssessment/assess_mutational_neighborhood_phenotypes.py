@@ -87,7 +87,8 @@ def assess_mutational_neighborhood_phenotypes(
                 2: calc_num_twostep_pointmuts(num_sites, num_insts),
             },
         )
-        if 0 in phen_df["Mutational Distance"]:
+        # unique shouldn't be necessary, but is
+        if 0 in phen_df["Mutational Distance"].unique():
             fil = phen_df["Mutational Distance"] == 0
             assert fil.sum() == 1
             reference_row = phen_df[fil].iloc[0]
