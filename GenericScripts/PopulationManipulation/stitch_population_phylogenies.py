@@ -77,7 +77,7 @@ def stitch_population_phylogenies(
 
     Parameters
     ----------
-    population_df_sequence : pd.DataFrame
+    population_df_sequence : Iterable[pd.DataFrame]
         Deserialized spop data from `load_population_dataframe`, sequenced
         chronologically.
     mutate : bool, default False
