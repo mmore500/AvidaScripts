@@ -5,7 +5,7 @@ import pytest
 
 from AvidaScripts.GenericScripts.PopulationManipulation import (
     load_population_dataframe,
-    stitch_population_phylogenies
+    stitch_population_phylogenies,
 )
 
 
@@ -13,8 +13,8 @@ from AvidaScripts.GenericScripts.PopulationManipulation import (
     "pop_paths",
     [
         [
-             f"{os.path.dirname(__file__)}/assets/epoch={epoch}+ext=.spop"
-             for epoch in range(4)
+            f"{os.path.dirname(__file__)}/assets/epoch={epoch}+ext=.spop"
+            for epoch in range(4)
         ],
         [f"{os.path.dirname(__file__)}/assets/epoch=0+ext=.spop"],
     ],
@@ -26,10 +26,14 @@ def test_stitch_population_phylogenies(pop_paths):
 
     assert hstrat_auxlib.alifestd_validate(stitched_df)
 
-    num_initial_roots = pop_dfs[0]["Parent ID(s)"].str.contains(
-        "(none)",
-        regex=False,
-    ).sum()
+    num_initial_roots = (
+        pop_dfs[0]["Parent ID(s)"]
+        .str.contains(
+            "(none)",
+            regex=False,
+        )
+        .sum()
+    )
     num_stitched_roots = len(hstrat_auxlib.alifestd_find_root_ids(stitched_df))
     assert num_initial_roots == num_stitched_roots
 
