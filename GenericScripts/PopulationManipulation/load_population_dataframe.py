@@ -62,6 +62,17 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
 
     res["is host"] = res["Source"].str.contains("div")
     res["is parasite"] = res["Source"].str.contains("horz")
+
+    bad_mask = (
+        res["is host"] & res["is parasite"]
+        | ~(res["is host"] | res["is parasite"])
+    )
+    if any(bad_mask):
+        raise ValueError(
+            "is host and is parasite are not mutually exclusive "
+            f"in {bad_mask.sum()} rows, {res[bad_mask]}."
+        )
+
     assert list((0 + res["is host"] + res["is parasite"]).unique()) == [1]
 
     res["role"] = np.where(res["is host"], "host", "parasite")
