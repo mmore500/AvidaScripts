@@ -60,14 +60,13 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
         res[~(res["Genome Length"] > 0)]["Genome Length"],
     )
 
-    res["is host"] = (
-        res["Source"].str.contains("div") | res["Source"].str.contains("dup")
+    res["is host"] = res["Source"].str.contains("div") | res["Source"].str.contains(
+        "dup"
     )
     res["is parasite"] = res["Source"].str.contains("horz")
 
-    bad_mask = (
-        res["is host"] & res["is parasite"]
-        | ~(res["is host"] | res["is parasite"])
+    bad_mask = res["is host"] & res["is parasite"] | ~(
+        res["is host"] | res["is parasite"]
     )
     if any(bad_mask):
         raise ValueError(
