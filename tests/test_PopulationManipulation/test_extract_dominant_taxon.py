@@ -1,5 +1,7 @@
 import os
 
+import pytest
+
 from AvidaScripts.GenericScripts.PopulationManipulation import (
     extract_dominant_taxon,
     load_population_dataframe,
@@ -38,3 +40,21 @@ def test_extract_dominant_taxon_parasite():
         dominant_taxon_dict["Number of currently living organisms"]
         == parasite_pop_df["Number of currently living organisms"].max()
     )
+
+
+@pytest.mark.parametrize("role", ["host", "parasite"])
+def test_extract_dominant_taxon_exclude_monolithic_parasite(role: str):
+    pop_path = f"{os.path.dirname(__file__)}/assets/monolithic-host-parasite.spop"
+    pop_df = load_population_dataframe(pop_path)
+
+    for exclude_monolithic in True, False:
+        dominant_taxon_dict = extract_dominant_taxon(
+            pop_df,
+            role,
+            exclude_monolithic=exclude_monolithic,
+        )
+        assert dominant_taxon_dict["role"] == role
+        if exclude_monolithic:
+            assert len(set(dominant_taxon_dict["Genome Sequence"])) > 1
+        else:
+            assert len(set(dominant_taxon_dict["Genome Sequence"])) == 1
