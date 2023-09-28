@@ -18,9 +18,7 @@ def load_deme_replication_dataframe(data_path: str) -> pd.DataFrame:
     )
     assert len([*res]) == 3  # 3 columns
     for key in res:
-        assert (res[key] >= 0).all(), (
-            data_path, res[~(res[key] >= 0)][key]
-        )
+        assert (res[key] >= 0).all(), (data_path, res[~(res[key] >= 0)][key])
 
     res["Epoch Update"] = res["Update"]
 

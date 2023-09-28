@@ -10,7 +10,7 @@ from hstrat import _auxiliary_lib as hstrat_auxlib
 
 def stitch_deme_replication_dataframes(
     deme_replication_df_sequence: typing.Iterable[pd.DataFrame],
-    num_updates_per_epoch : typing.Optional[int] = None,
+    num_updates_per_epoch: typing.Optional[int] = None,
     mutate: bool = False,
 ) -> pd.DataFrame:
     """Join deme replication data from sequential evolutionary epochs.
