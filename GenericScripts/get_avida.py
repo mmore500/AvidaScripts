@@ -2,6 +2,7 @@ import atexit
 import functools
 import logging
 import os
+import shutil
 import tempfile
 
 import appdirs
@@ -42,6 +43,8 @@ def get_avida_executable_data(revision: str = default_avida_revision) -> bytes:
     compiled_avida_executable_path = f"{tmpdir}/cbuild/work/avida"
     with open(compiled_avida_executable_path, "rb") as avida_executable_file:
         binary_data = avida_executable_file.read()
+
+    shutil.rmtree(tmpdir)
 
     return binary_data
 

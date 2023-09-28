@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -104,6 +105,7 @@ DETAIL {phenotypes_outpath} sequence viable {
         logging.info(completed_process.stderr)
 
     res = load_phenotype_dataframe(phenotypes_outpath, environment_content)
+    os.remove(phenotypes_outpath)
     # undo hostificaiton, if necessary
     if hostify_sequences:
         res["Genome Sequence"] = sequences
