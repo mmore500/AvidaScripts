@@ -22,8 +22,7 @@ default_avida_revision = "2f2fb6df42325a40ae13a0b8bbefb305aa08841b"
 
 @memory.cache
 def get_avida_executable_data(revision: str = default_avida_revision) -> bytes:
-    """Get binary executable data for Avida at the provided the SHA revision
-    from cache, or build it from source if not in cache."""
+    """Build binary executable data for Avida from source."""
 
     # log building avida from source, this may take a minute
     logging.info("building avida from source, this may take a minute")
