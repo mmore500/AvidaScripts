@@ -60,10 +60,12 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
         res[~(res["Genome Length"] > 0)]["Genome Length"],
     )
 
-    res["is host"] = res["Source"].str.contains("div") | res["Source"].str.contains(
-        "dup"
-    )
-    res["is parasite"] = res["Source"].str.contains("horz")
+    is_div = res["Source"].str.contains("div")
+    is_dup = res["Source"].str.contains("dup")
+    res["is host"] = is_div | is_dup
+    is_horz = res["Source"].str.contains("horz")
+    is_vert = res["Source"].str.contains("vert")
+    res["is parasite"] = is_horz | is_vert
 
     bad_mask = res["is host"] & res["is parasite"] | ~(
         res["is host"] | res["is parasite"]
