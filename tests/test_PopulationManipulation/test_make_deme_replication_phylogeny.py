@@ -24,5 +24,5 @@ def test_make_deme_replication_phylogeny():
 
         assert source_deme_id == ancestor_deme_id
 
-    assert all(res["creation_time"] < res["destruction_time"])
-    assert all(res["creation_time"] == res["Update"])
+    assert all(res["origin_time"] < res["destruction_time"])
+    assert all(res["origin_time"] == res["Update"])

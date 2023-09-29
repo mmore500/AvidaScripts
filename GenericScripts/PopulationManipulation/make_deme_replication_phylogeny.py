@@ -70,7 +70,7 @@ def make_deme_replication_phylogeny(
         df["ancestor_id"],
     )
 
-    df["creation_time"] = df["Update"]
+    df["origin_time"] = df["Update"]
 
     def find_successor(row: pd.Series) -> int:
         target_deme = row["Target Deme ID"]
@@ -78,7 +78,7 @@ def make_deme_replication_phylogeny(
         below_rows = df.iloc[row.name + 1 :]
 
         return max(
-            below_rows[below_rows["Target Deme ID"] == target_deme]["creation_time"],
+            below_rows[below_rows["Target Deme ID"] == target_deme]["origin_time"],
             default=df["Update"].max() + 1,  # is not destroyed
         )
     df["destruction_time"] = df.apply(find_successor, axis=1)
