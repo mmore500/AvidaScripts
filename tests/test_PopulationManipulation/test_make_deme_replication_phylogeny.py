@@ -23,3 +23,6 @@ def test_make_deme_replication_phylogeny():
         ancestor_deme_id = res.loc[ancestor_mask, "Target Deme ID"].squeeze()
 
         assert source_deme_id == ancestor_deme_id
+
+    assert all(res["creation_time"] < res["destruction_time"])
+    assert all(res["creation_time"] == res["Update"])
