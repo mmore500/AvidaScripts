@@ -70,7 +70,6 @@ def make_deme_replication_phylogeny(
         df["ancestor_id"],
     )
 
-    print(df)
     assert hstrat_auxlib.alifestd_validate(df)
 
     return df
