@@ -92,7 +92,7 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
         return _load_population_dataframe(population_path)
     except Exception as exception:
         print(
-            f"load_population_dataframe failed with {exceptino=} "
+            f"load_population_dataframe failed with {exception=} "
             f"and {population_path=}"
         )
         raise exception
