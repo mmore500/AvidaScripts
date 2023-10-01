@@ -77,7 +77,7 @@ def make_deme_replication_phylogeny(
         # row.name gives the index of the current row
         below_rows = df.iloc[row.name + 1 :]
 
-        return max(
+        return min(
             below_rows[below_rows["Target Deme ID"] == target_deme]["origin_time"],
             default=df["Update"].max() + 1,  # is not destroyed
         )
