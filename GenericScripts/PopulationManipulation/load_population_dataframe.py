@@ -5,7 +5,8 @@ import pandas as pd
 
 
 def _load_population_dataframe(
-    population_path: str, engine: str
+    population_path: str,
+    engine: str,
 ) -> pd.DataFrame:
     """Deserialze a spop file as Pandas DataFrame.
 

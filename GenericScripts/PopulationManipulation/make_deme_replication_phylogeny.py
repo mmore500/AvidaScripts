@@ -81,6 +81,7 @@ def make_deme_replication_phylogeny(
             below_rows[below_rows["Target Deme ID"] == target_deme]["origin_time"],
             default=df["Update"].max() + 1,  # is not destroyed
         )
+
     df["destruction_time"] = df.apply(find_successor, axis=1)
 
     assert hstrat_auxlib.alifestd_validate(df)
