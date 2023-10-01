@@ -36,7 +36,10 @@ def _check_population_dfs(population_dfs: typing.List[pd.DataFrame]) -> None:
                 assert id_times[int(parent_id)] <= child_time
 
 
-def _setup_calculated_cols(population_dfs: typing.List[pd.DataFrame]) -> None:
+def _setup_calculated_cols(
+    population_dfs: typing.List[pd.DataFrame],
+    enforce_chronological_order: bool,
+) -> None:
     for epoch, population_df in enumerate(population_dfs):
         geneses_mask = population_df["Parent ID(s)"].str.contains(
             "(none)",
@@ -69,14 +72,16 @@ def _setup_calculated_cols(population_dfs: typing.List[pd.DataFrame]) -> None:
         population_df["epoch"] = epoch
         population_df.drop(["ID", "Parent ID(s)"], axis=1, inplace=True)
 
-        checkdf = population_df.copy()
-        checkdf["origin_time"] = checkdf["Update Born"]
-        assert hstrat_auxlib.alifestd_is_chronologically_ordered(checkdf)
+        if enforce_chronological_order:
+            checkdf = population_df.copy()
+            checkdf["origin_time"] = checkdf["Update Born"]
+            assert hstrat_auxlib.alifestd_is_chronologically_ordered(checkdf)
 
 
 def stitch_population_phylogenies(
     population_df_sequence: typing.Iterable[pd.DataFrame],
     mutate: bool = False,
+    enforce_chronological_order: bool = False,
 ) -> pd.DataFrame:
     """Join phylogeny data of spop archives from sequential evolutionary epochs
     based on common genetic sequenes.
@@ -101,7 +106,7 @@ def stitch_population_phylogenies(
     _check_population_dfs(population_dfs)
 
     # create alias columns...
-    _setup_calculated_cols(population_dfs)
+    _setup_calculated_cols(population_dfs, enforce_chronological_order)
 
     agg_df = hstrat_auxlib.alifestd_aggregate_phylogenies(population_dfs)
     assert hstrat_auxlib.alifestd_validate(agg_df)
@@ -184,12 +189,13 @@ def stitch_population_phylogenies(
             f"({len(stitches)} stitched entries)"
         )
 
-    checkdf = agg_df.copy()
-    checkdf["origin_time"] = checkdf["epoch"]
-    assert hstrat_auxlib.alifestd_is_chronologically_ordered(checkdf)
-    checkdf["origin_time"] = (
-        checkdf["epoch"] * checkdf["Update Born"].max() + checkdf["Update Born"]
-    )
-    assert hstrat_auxlib.alifestd_is_chronologically_ordered(checkdf)
+    if enforce_chronological_order:
+        checkdf = agg_df.copy()
+        checkdf["origin_time"] = checkdf["epoch"]
+        assert hstrat_auxlib.alifestd_is_chronologically_ordered(checkdf)
+        checkdf["origin_time"] = (
+            checkdf["epoch"] * checkdf["Update Born"].max() + checkdf["Update Born"]
+        )
+        assert hstrat_auxlib.alifestd_is_chronologically_ordered(checkdf)
 
     return agg_df
