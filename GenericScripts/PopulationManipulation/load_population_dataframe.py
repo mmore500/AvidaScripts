@@ -2,7 +2,9 @@ import numpy as np
 import pandas as pd
 
 
-def _load_population_dataframe(population_path: str) -> pd.DataFrame:
+def _load_population_dataframe(
+    population_path: str, engine: str
+) -> pd.DataFrame:
     """Deserialze a spop file as Pandas DataFrame.
 
     Generates additional columns with convenience statistics.
@@ -38,10 +40,13 @@ def _load_population_dataframe(population_path: str) -> pd.DataFrame:
             "Inst Set Name",  # column 16
             "Genome Sequence",  # column 17
             "Occupied Cell IDs",  # column 18
+            # "Gestation (CPU) Cycle Offsets",  # column 19
+            # "Lineage Label",  # column 20
         ],
         usecols=range(18),
+        engine=engine,
     )
-    assert len([*res]) == 18  # 20 columns
+    assert len([*res]) == 18  # 20 columns minus last two
     assert (res["Number of currently living organisms"] >= 0).all(), (
         population_path,
         res[~(res["Number of currently living organisms"] >= 0)][
@@ -87,11 +92,14 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
 
     Generates additional columns with convenience statistics.
     """
-    try:
-        return _load_population_dataframe(population_path)
-    except Exception as exception:
-        print(
-            f"load_population_dataframe failed with {exception=} "
-            f"and {population_path=}"
-        )
-        raise exception
+
+    for engine in "c", "python":
+        try:
+            return _load_population_dataframe(population_path, engine)
+        except Exception as exception:
+            print(
+                f"load_population_dataframe failed with {exception=} "
+                f"and {population_path=} under {engine=}"
+            )
+            if engine == "python":
+                raise exception
