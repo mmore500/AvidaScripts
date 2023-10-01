@@ -1,3 +1,5 @@
+import warnings
+
 import numpy as np
 import pandas as pd
 
@@ -97,7 +99,7 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
         try:
             return _load_population_dataframe(population_path, engine)
         except Exception as exception:
-            print(
+            warnings.warn(
                 f"load_population_dataframe failed with {exception=} "
                 f"and {population_path=} under {engine=}"
             )
