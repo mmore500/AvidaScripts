@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def load_population_dataframe(population_path: str) -> pd.DataFrame:
+def _load_population_dataframe(population_path: str) -> pd.DataFrame:
     """Deserialze a spop file as Pandas DataFrame.
 
     Generates additional columns with convenience statistics.
@@ -81,3 +81,18 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
     res["role"] = np.where(res["is host"], "host", "parasite")
 
     return res
+
+
+def load_population_dataframe(population_path: str) -> pd.DataFrame:
+    """Deserialze a spop file as Pandas DataFrame.
+
+    Generates additional columns with convenience statistics.
+    """
+    try:
+        return _load_population_dataframe(population_path)
+    except Exception as exception:
+        print(
+            f"load_population_dataframe failed with {exceptino=} "
+            f"and {population_path=}"
+        )
+        raise exception
