@@ -21,17 +21,19 @@ def _check_population_dfs(population_dfs: typing.List[pd.DataFrame]) -> None:
     # parent role must equal child role
     for population_df in population_dfs:
         id_roles = dict(
-            zip(
-                population_df["ID"],
-                population_df["role"],
-            ),
+            zip(population_df["ID"].astype(int), population_df["role"]),
         )
-        for parent_id, child_role in zip(
+        id_times = dict(
+            zip(population_df["ID"].astype(int), population_df["Update Born"]),
+        )
+        for parent_id, child_role, child_time in zip(
             population_df["Parent ID(s)"],
             population_df["role"],
+            population_df["Update Born"],
         ):
             if parent_id in id_roles:
-                assert id_roles["parent_id"] == child_role
+                assert id_roles[int(parent_id)] == child_role
+                assert id_times[int(parent_id)] <= child_time
 
 
 def _setup_calculated_cols(population_dfs: typing.List[pd.DataFrame]) -> None:
@@ -67,6 +69,10 @@ def _setup_calculated_cols(population_dfs: typing.List[pd.DataFrame]) -> None:
         population_df["epoch"] = epoch
         population_df.drop(["ID", "Parent ID(s)"], axis=1, inplace=True)
 
+        checkdf = population_df.copy()
+        checkdf["origin_time"] = checkdf["Update Born"]
+        assert hstrat_auxlib.alifestd_is_chronologically_ordered(checkdf)
+
 
 def stitch_population_phylogenies(
     population_df_sequence: typing.Iterable[pd.DataFrame],
@@ -99,6 +105,9 @@ def stitch_population_phylogenies(
 
     agg_df = hstrat_auxlib.alifestd_aggregate_phylogenies(population_dfs)
     assert hstrat_auxlib.alifestd_validate(agg_df)
+    checkdf = agg_df.copy()
+    checkdf["origin_time"] = checkdf["epoch"]
+    assert hstrat_auxlib.alifestd_is_chronologically_ordered(checkdf)
 
     # find all entries to stich together across epochs
     stitches = {}  # map stitch from ids to stitch to ids
@@ -174,5 +183,13 @@ def stitch_population_phylogenies(
             f"{num_unstitched} unstitched entries "
             f"({len(stitches)} stitched entries)"
         )
+
+    checkdf = agg_df.copy()
+    checkdf["origin_time"] = checkdf["epoch"]
+    assert hstrat_auxlib.alifestd_is_chronologically_ordered(checkdf)
+    checkdf["origin_time"] = (
+        checkdf["epoch"] * checkdf["Update Born"].max() + checkdf["Update Born"]
+    )
+    assert hstrat_auxlib.alifestd_is_chronologically_ordered(checkdf)
 
     return agg_df
