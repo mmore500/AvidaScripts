@@ -99,9 +99,13 @@ def load_population_dataframe(population_path: str) -> pd.DataFrame:
         try:
             return _load_population_dataframe(population_path, engine)
         except Exception as exception:
-            warnings.warn(
-                f"load_population_dataframe failed with {exception=} "
-                f"and {population_path=} under {engine=}"
-            )
-            if engine == "python":
+            if engine == "c":
+                continue
+            elif engine == "python":
+                warnings.warn(
+                    f"load_population_dataframe failed with {exception=} "
+                    f"and {population_path=} under both c and python engines"
+                )
                 raise exception
+            else:
+                assert False, engine
