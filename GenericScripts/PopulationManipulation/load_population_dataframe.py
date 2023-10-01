@@ -38,11 +38,10 @@ def _load_population_dataframe(population_path: str) -> pd.DataFrame:
             "Inst Set Name",  # column 16
             "Genome Sequence",  # column 17
             "Occupied Cell IDs",  # column 18
-            "Gestation (CPU) Cycle Offsets",  # column 19
-            "Lineage Label",  # column 20
         ],
+        usecols=range(18),
     )
-    assert len([*res]) == 20  # 20 columns
+    assert len([*res]) == 18  # 20 columns
     assert (res["Number of currently living organisms"] >= 0).all(), (
         population_path,
         res[~(res["Number of currently living organisms"] >= 0)][

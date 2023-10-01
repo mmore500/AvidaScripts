@@ -1,12 +1,18 @@
 import os
 
+import pytest
+
 from AvidaScripts.GenericScripts.PopulationManipulation import (
     load_population_dataframe,
 )
 
 
-def test_load_population_dataframe():
-    pop_path = f"{os.path.dirname(__file__)}/assets/example-host-parasite.spop"
+@pytest.mark.parametrize(
+    "filename",
+    ["example-host-parasite.spop", "example-host-parasite-bad.spop"],
+)
+def test_load_population_dataframe(filename: str):
+    pop_path = f"{os.path.dirname(__file__)}/assets/{filename}"
     res = load_population_dataframe(pop_path)
 
     assert res.iloc[0].to_dict() == {
@@ -28,8 +34,6 @@ def test_load_population_dataframe():
         "Inst Set Name": "transsmt",  # row 16
         "Genome Sequence": "ycdBCiEdimFjfCDaknmsAjemEEcgccgssmhEDcsdseDcAcBcggclEEcDEgcvysAmlzessjhcdcggkhamtmciEEvjDdhjidziAyndvmEdboznjDmcjohohooayaxdyalboekzebjcogEtjgjacblDvubADnslyyocgsAcjCbobffhmvnnAdbDfkmxcagBFfnqytqhutjdzfdjsnflfoqCwcvhsjcvbmlsqcjrgyiDivvnFhrArcsmifbClvluDqmCBbtiDhiEfACcarpmczijdljujACbfzuDEFyaqqekizDosbbzjgmpczypqvcrGxab",  # row 17
         "Occupied Cell IDs": "1245",  # row 18
-        "Gestation (CPU) Cycle Offsets": "0",  # row 19
-        "Lineage Label": "0",  # row 20
         "is host": True,  # from additional postprocessing
         "is parasite": False,  # from additional postprocessing
         "role": "host",  # from additional postprocessing
