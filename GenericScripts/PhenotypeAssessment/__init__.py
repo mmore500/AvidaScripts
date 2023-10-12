@@ -1,6 +1,7 @@
 from .assess_mutational_neighborhood_phenotypes import (
     assess_mutational_neighborhood_phenotypes,
 )
+from .assess_host_phenotypes import assess_host_phenotypes
 from .assess_phenotypes import assess_phenotypes
 from .assess_parasite_phenotypes import assess_parasite_phenotypes
 from .count_environment_tasks import count_environment_tasks
@@ -16,6 +17,7 @@ from .summarize_mutational_neighborhood_phenotypes import (
 
 __all__ = [
     "assess_mutational_neighborhood_phenotypes",
+    "assess_host_phenotypes",
     "assess_phenotypes",
     "assess_parasite_phenotypes",
     "count_environment_tasks",
