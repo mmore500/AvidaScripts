@@ -180,6 +180,12 @@ def assess_parasite_phenotypes(
         )
         for __, row in para_phen_df.iterrows()
     ]
+    para_phen_df["Phenotype Traits"] = [
+        "".join(
+            str(int(value)) for col, value in row.items() if col.startswith("Trait ")
+        )
+        for __, row in para_phen_df.iterrows()
+    ]
     para_phen_df["Num Traits"] = [
         sum(
             int(value)
