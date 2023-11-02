@@ -130,7 +130,7 @@ def assess_host_phenotypes(
 
             path_attrs = kn.unpack(host_grid_path)
             host_grid_df["Genome Sequence"] = sequence_lookup[path_attrs["sequence"]]
-            host_grid_df["Order"] = path_attrs["order"]
+            host_grid_df["Order"] = int(path_attrs["order"])
             host_grid_dfs.append(host_grid_df)
 
     # concatenate all host grid dataframes

@@ -149,7 +149,7 @@ def assess_parasite_phenotypes(
 
             path_attrs = kn.unpack(para_grid_path)
             para_grid_df["Genome Sequence"] = path_attrs["sequence"]
-            para_grid_df["Order"] = path_attrs["order"]
+            para_grid_df["Order"] = int(path_attrs["order"])
             para_grid_dfs.append(para_grid_df)
 
     # concatenate all parasite grid dataframes
