@@ -8,7 +8,12 @@ utilities for analyses and visualizations of Avida data
 - builtin (extendable) named instruction library and environment configurations
 
 ## Installation
+Install directly from GitHub (preferred):
+```bash
+python3 -m pip install "git+https://github.com/mmore500/AvidaScripts.git@v0.9.1#egg=AvidaScripts"
+```
 
+Instal from local copy of repository:
 ```bash
 python3 -m pip install AvidaScripts/
 ```
